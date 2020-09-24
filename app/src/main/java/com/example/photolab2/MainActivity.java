@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void scrollPhotos(View v) {
+        updatePhoto(photos.get(index), ((EditText) findViewById(R.id.editText_caption)).getText().toString());
+
         switch (v.getId()) {
             case R.id.button_prev:
                 if (index > 0) {
