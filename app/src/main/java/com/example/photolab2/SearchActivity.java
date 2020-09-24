@@ -26,6 +26,7 @@ public class SearchActivity extends AppCompatActivity {
                     "yyyy‐MM‐dd HH:mm:ss", Locale.getDefault()).format(tomorrow));
         } catch (Exception ex) { }
     }
+    
     public void cancel(final View v) {
         finish();
     }

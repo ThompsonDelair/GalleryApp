@@ -21,7 +21,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int SEARCH_ACTIVITY_REQUEST_CODE = 0;
+    static final int SEARCH_ACTIVITY_REQUEST_CODE = 2;
 
     String mCurrentPhotoPath;
 
@@ -39,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
             displayPhoto(photos.get(index));
         }
     }
+
+    public void search(View view) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
     public void takePhoto(View v) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -131,31 +137,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SEARCH_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                DateFormat format = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
-                Date startTimestamp , endTimestamp;
-                try {
-                    String from = (String) data.getStringExtra("STARTTIMESTAMP");
-                    String to = (String) data.getStringExtra("ENDTIMESTAMP");
-                    startTimestamp = format.parse(from);
-                    endTimestamp = format.parse(to);
-                } catch (Exception ex) {
-                    startTimestamp = null;
-                    endTimestamp = null;
-                }
-                String keywords = (String) data.getStringExtra("KEYWORDS");
-                index = 0;
-                photos = findPhotos(startTimestamp, endTimestamp, keywords);
-                if (photos.size() == 0) {
-                    displayPhoto(null);
-                } else {
-                    displayPhoto(photos.get(index));
-                }
-            }
-        }
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == SEARCH_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+            DateFormat format = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
+            Date startTimestamp , endTimestamp;
+            try {
+                String from = (String) data.getStringExtra("STARTTIMESTAMP");
+                String to = (String) data.getStringExtra("ENDTIMESTAMP");
+                startTimestamp = format.parse(from);
+                endTimestamp = format.parse(to);
+            } catch (Exception ex) {
+                startTimestamp = null;
+                endTimestamp = null;
+            }
+            String keywords = (String) data.getStringExtra("KEYWORDS");
+            index = 0;
+            photos = findPhotos(startTimestamp, endTimestamp, keywords);
+            if (photos.size() == 0) {
+                displayPhoto(null);
+            } else {
+                displayPhoto(photos.get(index));
+            }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
             mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
             photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
