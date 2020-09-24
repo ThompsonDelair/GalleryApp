@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     String mCurrentPhotoPath;
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        photos = findPhotos();
+        photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         if (photos.size() == 0) {
             displayPhoto(null);
         } else {
@@ -42,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-// Error occurred while creating the File
+            // Error occurred while creating the File
             }
-// Continue only if the File was successfully created
+            // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this, "com.example.photolab2.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -53,14 +55,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<String> findPhotos() {
+    private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords) {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.photolab2/files/Pictures");
         ArrayList<String> photos = new ArrayList<String>();
         File[] fList = file.listFiles();
         if (fList != null) {
             for (File f : fList) {
-                photos.add(f.getPath());
+                if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
+                        && f.lastModified() <= endTimestamp.getTime())
+                ) && (keywords == "" || f.getPath().contains(keywords)))
+                    photos.add(f.getPath());
             }
         }
         return photos;
@@ -120,12 +125,37 @@ public class MainActivity extends AppCompatActivity {
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SEARCH_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                DateFormat format = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
+                Date startTimestamp , endTimestamp;
+                try {
+                    String from = (String) data.getStringExtra("STARTTIMESTAMP");
+                    String to = (String) data.getStringExtra("ENDTIMESTAMP");
+                    startTimestamp = format.parse(from);
+                    endTimestamp = format.parse(to);
+                } catch (Exception ex) {
+                    startTimestamp = null;
+                    endTimestamp = null;
+                }
+                String keywords = (String) data.getStringExtra("KEYWORDS");
+                index = 0;
+                photos = findPhotos(startTimestamp, endTimestamp, keywords);
+                if (photos.size() == 0) {
+                    displayPhoto(null);
+                } else {
+                    displayPhoto(photos.get(index));
+                }
+            }
+        }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
             mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
+            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         }
     }
 }
