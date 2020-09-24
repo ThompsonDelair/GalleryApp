@@ -3,6 +3,8 @@ package com.example.photolab2;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -27,27 +29,30 @@ public class SearchTest {
     @Rule
     public final ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(MainActivity.class, false, true);
 
-//    @Test
-//    public void searchByTime() {
-//        // Context of the app under test.
-//        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-//        assertEquals("com.example.photolab2", appContext.getPackageName());
-//
-//        onView(withId(R.id.btnSearch)).perform(click());
-//        onView(withId(R.id.etFromDateTime)).perform(typeText(""), closeSoftKeyboard());
-//        onView(withId(R.id.etToDateTime)).perform(typeText(""), closeSoftKeyboard());
-//        onView(withId(R.id.etKeywords)).perform(typeText("caption"), closeSoftKeyboard());
-//        onView(withId(R.id.go)).perform(click());
-//        onView(withId(R.id.etCaption)).check(matches(withText("caption")));
-//        onView(withId(R.id.btnRight)).perform(click());
-//        onView(withId(R.id.btnLeft)).perform(click());
-//    }
-
     @Test
-    public void testing() {
+    public void searchByTime() {
+        // Context of the app under test.
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        assertEquals("com.example.photolab2", appContext.getPackageName());
+
+        onView(withId(R.id.button_search)).perform(click());
+        onView(withId(R.id.etFromDateTime)).perform(click());
+        onView(withId(R.id.etFromDateTime)).perform(typeText("testDate1"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.etToDateTime)).perform(click());
+        onView(withId(R.id.etToDateTime)).perform(typeText("testDate2"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.etKeywords)).perform(click());
+        onView(withId(R.id.etKeywords)).perform(typeText("testCaption"), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.go)).perform(click());
+        onView(withId(R.id.editText_caption)).check(matches(withText("caption")));
         onView(withId(R.id.button_next)).perform(click());
         onView(withId(R.id.button_prev)).perform(click());
-        System.out.println("test");
     }
+
+//    @Test
+//    public void testing() {
+//        onView(withId(R.id.button_next)).perform(click());
+//        onView(withId(R.id.button_prev)).perform(click());
+//        System.out.println("test");
+//    }
 }
 
