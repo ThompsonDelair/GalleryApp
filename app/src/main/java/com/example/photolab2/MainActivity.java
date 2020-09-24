@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void search(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, SEARCH_ACTIVITY_REQUEST_CODE);
     }
 
     public void takePhoto(View v) {
