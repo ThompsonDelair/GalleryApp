@@ -33,3 +33,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     compileOnly 'com.google.android.wearable:wearable:2.5.0'
 }
+
+task compile {
+    doLast {
+        println 'inside'
+    }
+}
