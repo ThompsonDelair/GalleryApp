@@ -21,6 +21,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int SEARCH_ACTIVITY_REQUEST_CODE = 0;
+
     String mCurrentPhotoPath;
 
     private ArrayList<String> photos = null;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords) {
         File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath(), "/Android/data/com.example.photolab2/files/Pictures");
+                .getAbsolutePath(), "/Android/data/com.example.myapplication/files/Pictures");
         ArrayList<String> photos = new ArrayList<String>();
         File[] fList = file.listFiles();
         if (fList != null) {
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
             mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
