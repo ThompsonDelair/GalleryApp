@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                     exif = new ExifInterface(Objects.requireNonNull(in));
 
                     // Ensure that LAT & LONG Values can be parsed. Else, set to 0
-                    System.out.println("EXIF : " + exif.toString());
                     exif.getLatLong(latlon);
                     System.out.println("lat : " + latlon[0] + ", lon : " + latlon[1]);
 
@@ -191,8 +190,12 @@ public class MainActivity extends AppCompatActivity {
                 startTimestamp = format.parse(from);
                 endTimestamp = format.parse(to);
 
-                laty = data.getFloatExtra("LATITUDE", 0);
-                longy = data.getFloatExtra("LONGITUDE", 0);
+                Bundle bundle = data.getExtras();
+
+                laty = bundle.getFloat("LATITUDE");
+                longy = bundle.getFloat("LONGITUDE");
+
+                System.out.println("LatY = "+ laty + ", LongY = " + longy);
 
             } catch (Exception ex) {
                 startTimestamp = null;
