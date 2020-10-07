@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,28 +80,34 @@ public class MainActivity extends AppCompatActivity {
 
             // Iterate through each file
             for (File f : fList) {
+                System.out.println("FILE : " + f.getPath());
+
+                InputStream in;
+                Uri imgUri = Uri.fromFile(f);
+
                 // Parse geocoding from photo file usin EXIF Interface.
                 ExifInterface exif;
                 float laty = 0, longy = 0;
+                float[] latlon = new float[2];
 
                 try {
-                    exif = new ExifInterface(f.getPath());
+                    in = getContentResolver().openInputStream(imgUri);
+                    exif = new ExifInterface(Objects.requireNonNull(in));
 
                     // Ensure that LAT & LONG Values can be parsed. Else, set to 0
-                    if (exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE) != null) {
-                        laty = Float.parseFloat(Objects.requireNonNull(exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE)));
-                        longy = Float.parseFloat(Objects.requireNonNull(exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE)));
-                    } else {
-                        laty = 0;
-                        longy = 0;
-                    }
+                    System.out.println("EXIF : " + exif.toString());
+                    exif.getLatLong(latlon);
+                    System.out.println("lat : " + latlon[0] + ", lon : " + latlon[1]);
+
+                    laty = latlon[0];
+                    longy = latlon[1];
 
                 } catch(IOException e) {
                     System.out.println("Absolute file path "+ f.getPath() + " not found.");
                 }
 
-                System.out.println("Lat : " + laty + ", Long : " + longy);
-                
+//                System.out.println("Lat : " + laty + ", Long : " + longy);
+
                 // If this returns true, a file will be added to the photos list.
                 if ( ( (startTimestamp == null && endTimestamp == null) || ( f.lastModified() >= startTimestamp.getTime() && f.lastModified() <= endTimestamp.getTime() )
                 ) && ( keywords == "" || f.getPath().contains(keywords)
