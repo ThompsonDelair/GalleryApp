@@ -3,6 +3,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
+        photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
         if (photos.size() == 0) {
             displayPhoto(null);
         } else {
@@ -47,13 +49,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void takePhoto(View v) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
+
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
             // Error occurred while creating the File
             }
+
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this, "com.example.photolab2.fileprovider", photoFile);
@@ -63,19 +68,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords) {
+    private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords, float latitude, float longitude) {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.photolab2/files/Pictures");
         ArrayList<String> photos = new ArrayList<String>();
         File[] fList = file.listFiles();
+
+        // Check if a list of files was fetched
         if (fList != null) {
+
+            // Iterate through each file
             for (File f : fList) {
-                if (((startTimestamp == null && endTimestamp == null) || (f.lastModified() >= startTimestamp.getTime()
-                        && f.lastModified() <= endTimestamp.getTime())
-                ) && (keywords == "" || f.getPath().contains(keywords)))
+                // Parse geocoding from photo file usin EXIF Interface.
+                ExifInterface exif;
+                float laty = 0, longy = 0;
+
+                try {
+                    exif = new ExifInterface(f.getPath());
+
+                    // Ensure that LAT & LONG Values can be parsed. Else, set to 0
+                    if (exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE) != null) {
+                        laty = Float.parseFloat(Objects.requireNonNull(exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE)));
+                        longy = Float.parseFloat(Objects.requireNonNull(exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE)));
+                    } else {
+                        laty = 0;
+                        longy = 0;
+                    }
+
+                } catch(IOException e) {
+                    System.out.println("Absolute file path "+ f.getPath() + " not found.");
+                }
+
+                System.out.println("Lat : " + laty + ", Long : " + longy);
+                
+                // If this returns true, a file will be added to the photos list.
+                if ( ( (startTimestamp == null && endTimestamp == null) || ( f.lastModified() >= startTimestamp.getTime() && f.lastModified() <= endTimestamp.getTime() )
+                ) && ( keywords == "" || f.getPath().contains(keywords)
+                ) && ( latitude == 0 && longitude == 0) || (latitude == laty && longitude == longy))  {
                     photos.add(f.getPath());
+                }
             }
         }
+
         return photos;
     }
 
@@ -139,20 +173,31 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SEARCH_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+
             DateFormat format = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
             Date startTimestamp , endTimestamp;
+            float laty, longy;
+
             try {
                 String from = (String) data.getStringExtra("STARTTIMESTAMP");
                 String to = (String) data.getStringExtra("ENDTIMESTAMP");
                 startTimestamp = format.parse(from);
                 endTimestamp = format.parse(to);
+
+                laty = data.getFloatExtra("LATITUDE", 0);
+                longy = data.getFloatExtra("LONGITUDE", 0);
+
             } catch (Exception ex) {
                 startTimestamp = null;
                 endTimestamp = null;
+                laty = 0;
+                longy = 0;
             }
+
             String keywords = (String) data.getStringExtra("KEYWORDS");
+
             index = 0;
-            photos = findPhotos(startTimestamp, endTimestamp, keywords);
+            photos = findPhotos(startTimestamp, endTimestamp, keywords, laty, longy);
             if (photos.size() == 0) {
                 displayPhoto(null);
             } else {
@@ -161,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
             mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
-            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
+            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
         }
     }
 }
