@@ -1,19 +1,39 @@
 package com.example.photolab2;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import retrofit2.Call;
+
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+//import com.twitter.sdk.android.core.Twitter;
+//import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.twitter.sdk.android.core.models.User;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +48,18 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> photos = null;
     private int index = 0;
 
+    //Twitter twitter;
+    boolean twitterLoggedIn;
+
+    private TwitterAuthClient twitterAuthClient;
+    public static String consumerKey = "rCP747BkZVEQoO8BnWoUcrem5";
+    public static String consumerSecret = "1Uqom6JrPg7kzvDeDVgpxnqhvgpjI69xCOxpRVoDD6rv9Tr8Ib";
+    public static String callbackURL = "com.example.photolab2.ywitter_oauth";
+    public static String accessToken = "1313991235279831040-qdpMens0q05DfMIl3isqODQtsgBFOs";
+    public static String tokenSecret = "Mr8FcSR4vbvPwgm7tfcA4EwsEAzTHpmQU2adPkCLgyCU0";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +70,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             displayPhoto(photos.get(index));
         }
+        //TwitterSetup();
     }
+
+//    private void TwitterSetup(){
+//        ConfigurationBuilder cb = new ConfigurationBuilder();
+//        cb.setDebugEnabled(true)
+//                .setOAuthConsumerKey(consumerKey)
+//                .setOAuthConsumerSecret(consumerSecret)
+//                .setOAuthAccessToken(accessToken)
+//                .setOAuthAccessTokenSecret(tokenSecret);
+//        TwitterFactory tf = new TwitterFactory(cb.build());
+//        twitter = tf.getInstance();
+//    }
+
 
     public void search(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
@@ -138,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (twitterAuthClient != null) {
+            twitterAuthClient.onActivityResult(requestCode, resultCode, data);
+        }
+
         if (requestCode == SEARCH_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             DateFormat format = new SimpleDateFormat("yyyy‐MM‐dd HH:mm:ss");
             Date startTimestamp , endTimestamp;
@@ -164,4 +213,126 @@ public class MainActivity extends AppCompatActivity {
             photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "");
         }
     }
+
+    public void PostWithIntent(View v){
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "this is a test");
+        startActivity(Intent.createChooser(shareIntent, "Share your thoughts"));
+    }
+
+//    public void PostToTwitter() throws TwitterException {
+//        String latestStatus = "this is a test";
+////        Twitter twitter = TwitterFactory.getSingleton();
+//        Status status = twitter.updateStatus(latestStatus);
+//        System.out.println("Successfully updated the status to [" + status.getText() + "].");
+//    }
+
+//    public void PostTwitterButton(View v)  {
+
+//        new AsyncTask<Void,Void, Void>() {
+//
+//            @Override
+//            protected Void doInBackground(Void... params) {
+//                try {
+//                    PostToTwitter();
+//                } catch (TwitterException e) {
+//                    e.printStackTrace();
+//                }
+//                return  null;
+//            }
+//        }.execute();
+//    }
+
+
+
+//    public void LoginTwitterButton(View v){
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        if (!twitterLoggedIn)
+//        {
+//            new TwitterAuthenticateTask().execute();
+//        }
+//        else
+//        {
+//            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//            startActivity(intent);
+//        }
+//    }
+//
+//    class TwitterAuthenticateTask extends AsyncTask<String, String, RequestToken> {
+//
+//        @Override
+//        protected void onPostExecute(RequestToken requestToken) {
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(requestToken.getAuthenticationURL()));
+//            startActivity(intent);
+//        }
+//
+//        @Override
+//        protected RequestToken doInBackground(String... params) {
+//            return TwitterUtil.getInstance().getRequestToken();
+//        }
+//    }
+
+//    public void LoginToTwitter(){
+//        if(!twitterLoggedIn){
+//            ConfigurationBuilder builder = new ConfigurationBuilder();
+//            builder.setOAuthConsumerKey(consumerKey);
+//            builder.setOAuthConsumerSecret(consumerSecret);
+//            Configuration configuration = builder.build();
+//        }
+//    }
+
+//    private void initControl() {
+//        Uri uri = getIntent().getData();
+//        if (uri != null && uri.toString().startsWith(callbackURL)) {
+//            String verifier = uri.getQueryParameter("oauth_verifier");
+//            new TwitterGetAccessTokenTask().execute(verifier);
+//        } else
+//            new TwitterGetAccessTokenTask().execute("");
+//    }
+
+//    class TwitterGetAccessTokenTask extends AsyncTask<String, String, String> {
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            // string s is user name
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            String verifier = params[0];
+//
+//            Twitter twitter = TwitterUtil.getInstance().getTwitter();
+//            RequestToken requestToken = TwitterUtil.getInstance().getRequestToken();
+//
+//            try {
+//                AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
+//                long userId = accessToken.getUserId();
+//                return twitter.showUser(userId).getName();
+//            } catch (TwitterException e) {
+//                e.printStackTrace();
+//            }
+//
+//            return null;
+//        }
+//
+//    }
+
+//    public void TwitterPost(){
+//        try {
+//
+//            AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, params[0]);
+//            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putString(ConstantValues.PREFERENCE_TWITTER_OAUTH_TOKEN, accessToken.getToken());
+//            editor.putString(ConstantValues.PREFERENCE_TWITTER_OAUTH_TOKEN_SECRET, accessToken.getTokenSecret());
+//            editor.putBoolean(ConstantValues.PREFERENCE_TWITTER_IS_LOGGED_IN, true);
+//            editor.commit();
+//            return twitter.showUser(accessToken.getUserId()).getName();
+//        } catch (TwitterException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
+//    }
 }

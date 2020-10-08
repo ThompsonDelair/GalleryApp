@@ -6,4 +6,9 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">rCP747BkZVEQoO8BnWoUcrem5</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">1Uqom6JrPg7kzvDeDVgpxnqhvgpjI69xCOxpRVoDD6rv9Tr8Ib</string>
+<!--    <string name="com.twitter.sdk.android.CONSUMER_KEY">Fw4cXXXXXXXXXXX</string>-->
+<!--    <string name="com.twitter.sdk.android.CONSUMER_SECRET">Pnr7XXXXXXXXXXX</string>-->
 </resources>
