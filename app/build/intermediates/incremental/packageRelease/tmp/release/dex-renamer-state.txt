@@ -1,0 +1,4 @@
+#Thu Sep 24 19:42:03 PDT 2020
+base.0=C\:\\Users\\renzo\\Desktop\\android photo\\NewGalleryApp\\GalleryApp\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
