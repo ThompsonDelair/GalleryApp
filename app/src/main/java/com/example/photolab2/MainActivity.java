@@ -45,9 +45,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IGalleryView {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int SEARCH_ACTIVITY_REQUEST_CODE = 2;
+
+    Model model;
+    GalleryPresenter presenter;
+
 
     String mCurrentPhotoPath;
 
@@ -252,5 +256,10 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("CURRENT PHOTO PATH : " + mCurrentPhotoPath);
         shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(mCurrentPhotoPath));
         startActivity(Intent.createChooser(shareIntent, "Share image"));
+    }
+
+    @Override
+    public void DisplayPhoto() {
+
     }
 }
