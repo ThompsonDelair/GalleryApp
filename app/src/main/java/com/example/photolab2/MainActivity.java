@@ -23,6 +23,8 @@ import android.widget.TextView;
 //import com.twitter.sdk.android.core.Twitter;
 //import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import com.example.photolab2.CreationalPatterns.Photo;
+import com.example.photolab2.CreationalPatterns.PhotoBuilder;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -52,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
 
     private ArrayList<String> photos = null;
+
+    // Creational implementation
+    private ArrayList<Photo> photoList = null;
+    private PhotoBuilder photoBuilder = new PhotoBuilder();
+
     private int index = 0;
 
 
@@ -120,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Ensure that LAT & LONG Values can be parsed. Else, set to 0
                     exif.getLatLong(latlon);
-                    System.out.println("lat : " + latlon[0] + ", lon : " + latlon[1]);
+                    System.out.println("Photo" + f.getPath() + " taken at pos lat : " + latlon[0] + ", lon : " + latlon[1]);
 
                     laty = latlon[0];
                     longy = latlon[1];
@@ -219,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 laty = bundle.getFloat("LATITUDE");
                 longy = bundle.getFloat("LONGITUDE");
 
-                System.out.println("LatY = "+ laty + ", LongY = " + longy);
+//                System.out.println("LatY = "+ laty + ", LongY = " + longy);
 
             } catch (Exception ex) {
                 startTimestamp = null;
