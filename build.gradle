@@ -19,12 +19,6 @@ allprojects {
     }
 }
 
-task compile {
-    doLast {
-        println 'outside'
-    }
-}
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir
