@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
     private ArrayList<String> photos = null;
 
     // Creational implementation
-    private ArrayList<Photo> photoList = null;
     private PhotoBuilder photoBuilder = new PhotoBuilder();
+    private ArrayList<Photo> photoList = null;
 
     private int index = 0;
 
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.photolab2/files/Pictures");
         ArrayList<String> photos = new ArrayList<String>();
+        ArrayList<Photo> photoList = new ArrayList<Photo>();
         File[] fList = file.listFiles();
 
         // Check if a list of files was fetched
@@ -129,10 +130,11 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
                 PhotoInfoAdapter pAdapter = new PhotoInfoAdapter(imgUri, this, f);
 
                 // If this returns true, a file will be added to the photos list.
-                if ( ( (startTimestamp == null && endTimestamp == null) || ( pAdapter.getDate() >= startTimestamp.getTime() && pAdapter.getDate() <= endTimestamp.getTime() )
-                ) && ( keywords == "" || pAdapter.getFilePath().contains(keywords)
-                ) && ( latitude == 0 && longitude == 0) || (latitude == pAdapter.getLat() && longitude == pAdapter.getLong()))  {
-                    photos.add(pAdapter.getFilePath());
+                if ( ( (startTimestamp == null && endTimestamp == null) || ( f.lastModified() >= startTimestamp.getTime() && f.lastModified() <= endTimestamp.getTime() )
+                ) && ( keywords == "" || f.getPath().contains(keywords)
+                ) && ( latitude == 0 && longitude == 0) || (latitude == laty && longitude == longy))  {
+                    photos.add(f.getPath());
+                    photoList.add(photoBuilder.setFilePath(f.getPath()).setDate(f.lastModified()).setLocation(laty, longy).build());
                 }
             }
         }

@@ -7,9 +7,9 @@ public class Photo {
     private String filePath;
     private String caption;
     private float[] location;
-    private Date date;
+    private long date;
 
-    public Photo(String filePath, String caption, float laty, float longy, Date date) {
+    public Photo(String filePath, String caption, float laty, float longy, long date) {
         // File path
         this.filePath = filePath;
         this.caption = caption;
@@ -39,7 +39,7 @@ public class Photo {
         return location;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 

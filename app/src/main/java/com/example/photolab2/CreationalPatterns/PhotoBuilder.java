@@ -4,13 +4,13 @@ import android.net.Uri;
 
 import java.util.Date;
 
-// Used to construct and
+// Used to construct a new Photo through a series of function calls
 public class PhotoBuilder {
 
     private String filePath;
     private String caption;
     private float[] location;
-    private Date date;
+    private long date;
 
     public PhotoBuilder() {
         // Location array
@@ -33,6 +33,10 @@ public class PhotoBuilder {
         return this;
     }
 
+    public PhotoBuilder setDate(long date) {
+        this.date = date;
+        return this;
+    }
 
     public Photo build() {
         if (validateParameters()) {
