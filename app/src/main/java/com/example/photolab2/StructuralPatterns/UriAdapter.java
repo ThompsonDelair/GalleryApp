@@ -1,8 +1,11 @@
 package com.example.photolab2.StructuralPatterns;
 
+import android.content.ContentResolver;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.content.Context;
+
+import com.example.photolab2.MainActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,13 +29,14 @@ public class UriAdapter implements PhotoInfo{
     private Context context;
     private Uri uri;
 
-    public UriAdapter(Uri u, Context c, File f) {
+    public UriAdapter(Uri u, Context c, File f, float lat, float longy) {
         // File path
         this.filePath = filePath;
         this.caption = caption;
 
         // Location
-        getLatLong();
+        this.latitude = lat;
+        this.longitude = longy;
 
         // Date
         this.date = f.lastModified();
@@ -40,30 +44,6 @@ public class UriAdapter implements PhotoInfo{
         // Context and URI
         this.context = c;
         this.uri = u;
-    }
-
-    private void getLatLong(){
-        InputStream in;
-
-        // Parse geocoding from photo file usin EXIF Interface.
-        ExifInterface exif;
-        float laty = 0, longy = 0;
-        float[] latlon = new float[2];
-
-        try {
-            in = context.getContentResolver().openInputStream(uri);
-            exif = new ExifInterface(Objects.requireNonNull(in));
-
-            // Ensure that LAT & LONG Values can be parsed. Else, set to 0
-            exif.getLatLong(latlon);
-            //System.out.println("Photo" + f.getPath() + " taken at pos lat : " + latlon[0] + ", lon : " + latlon[1]);
-
-            latitude = latlon[0];
-            longitude = latlon[1];
-
-        } catch(IOException e) {
-            //System.out.println("Absolute file path "+ f.getPath() + " not found.");
-        }
     }
 
     @Override
