@@ -64,6 +64,8 @@ public class Model {
             LoadPhotos();
 
         index = (index - 1) % photos.size();
+        if(index < 0)
+            index = photos.size()-1;
         return GetCurrPhoto();
     }
 
