@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> photos = null;
 
     // Creational implementation
-    private ArrayList<Photo> photoList = null;
     private PhotoBuilder photoBuilder = new PhotoBuilder();
+    private ArrayList<Photo> photoList = null;
 
     private int index = 0;
 
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(Environment.getExternalStorageDirectory()
                 .getAbsolutePath(), "/Android/data/com.example.photolab2/files/Pictures");
         ArrayList<String> photos = new ArrayList<String>();
+        ArrayList<Photo> photoList = new ArrayList<Photo>();
         File[] fList = file.listFiles();
 
         // Check if a list of files was fetched
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 ) && ( keywords == "" || f.getPath().contains(keywords)
                 ) && ( latitude == 0 && longitude == 0) || (latitude == laty && longitude == longy))  {
                     photos.add(f.getPath());
+                    photoList.add(photoBuilder.setFilePath(f.getPath()).setDate(f.lastModified()).setLocation(laty, longy).build());
                 }
             }
         }
