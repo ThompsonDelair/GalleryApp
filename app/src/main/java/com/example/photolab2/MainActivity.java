@@ -96,35 +96,35 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
         }
     }
 
-    private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords, float latitude, float longitude) {
-        File file = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath(), "/Android/data/com.example.photolab2/files/Pictures");
-        ArrayList<String> photos = new ArrayList<String>();
-        ArrayList<Photo> photoList = new ArrayList<Photo>();
-        File[] fList = file.listFiles();
-
-        // Check if a list of files was fetched
-        if (fList != null) {
-
-            // Iterate through each file
-            for (File f : fList) {
-                System.out.println("FILE : " + f.getPath());
-                InputStream in;
-                Uri imgUri = Uri.fromFile(f);
-                PhotoInfoAdapter pAdapter = new PhotoInfoAdapter(imgUri, this, f);
-
-                // If this returns true, a file will be added to the photos list.
-                if ( ( (startTimestamp == null && endTimestamp == null) || ( f.lastModified() >= startTimestamp.getTime() && f.lastModified() <= endTimestamp.getTime() )
-                ) && ( keywords == "" || f.getPath().contains(keywords)
-                ) && ( latitude == 0 && longitude == 0) || (latitude == latitude && longitude == longitude))  {
-                    photos.add(f.getPath());
-                    photoList.add(photoBuilder.setFilePath(pAdapter.getFilePath()).setDate(pAdapter.getDate()).setLocation(pAdapter.getLat(), pAdapter.getLong()).build());
-                }
-            }
-        }
-
-        return photos;
-    }
+//    private ArrayList<String> findPhotos(Date startTimestamp, Date endTimestamp, String keywords, float latitude, float longitude) {
+//        File file = new File(Environment.getExternalStorageDirectory()
+//                .getAbsolutePath(), "/Android/data/com.example.photolab2/files/Pictures");
+//        ArrayList<String> photos = new ArrayList<String>();
+//        ArrayList<Photo> photoList = new ArrayList<Photo>();
+//        File[] fList = file.listFiles();
+//
+//        // Check if a list of files was fetched
+//        if (fList != null) {
+//
+//            // Iterate through each file
+//            for (File f : fList) {
+//                System.out.println("FILE : " + f.getPath());
+//                InputStream in;
+//                Uri imgUri = Uri.fromFile(f);
+//                PhotoInfoAdapter pAdapter = new PhotoInfoAdapter(imgUri, this, f);
+//
+//                // If this returns true, a file will be added to the photos list.
+//                if ( ( (startTimestamp == null && endTimestamp == null) || ( f.lastModified() >= startTimestamp.getTime() && f.lastModified() <= endTimestamp.getTime() )
+//                ) && ( keywords == "" || f.getPath().contains(keywords)
+//                ) && ( latitude == 0 && longitude == 0) || (latitude == latitude && longitude == longitude))  {
+//                    photos.add(f.getPath());
+//                    photoList.add(photoBuilder.setFilePath(pAdapter.getFilePath()).setDate(pAdapter.getDate()).setLocation(pAdapter.getLat(), pAdapter.getLong()).build());
+//                }
+//            }
+//        }
+//
+//        return photos;
+//    }
 
 //    public void scrollPhotos(View v) {
 //        updatePhoto(photos.get(index), ((EditText) findViewById(R.id.editText_caption)).getText().toString());
@@ -162,14 +162,14 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
 //        }
 //    }
 
-    private void updatePhoto(String path, String caption) {
-        String[] attr = path.split("_");
-        if (attr.length >= 3) {
-            File to = new File(attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3]);
-            File from = new File(path);
-            from.renameTo(to);
-        }
-    }
+//    private void updatePhoto(String path, String caption) {
+//        String[] attr = path.split("_");
+//        if (attr.length >= 3) {
+//            File to = new File(attr[0] + "_" + caption + "_" + attr[2] + "_" + attr[3]);
+//            File from = new File(path);
+//            from.renameTo(to);
+//        }
+//    }
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg",storageDir);
-        mCurrentPhotoPath = image.getAbsolutePath();
+        //mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -212,14 +212,15 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
             }
 
             String keywords = (String) data.getStringExtra("KEYWORDS");
+            presenter.Search(startTimestamp,endTimestamp,keywords,laty,longy);
+           //index = 0;
+//            photos = findPhotos(startTimestamp, endTimestamp, keywords, laty, longy);
+//            if (photos.size() == 0) {
+//                presenter.DisplayNullPhoto();
+//            } else {
+//                presenter.DisplayCurrPhoto();
+//            }
 
-            index = 0;
-            photos = findPhotos(startTimestamp, endTimestamp, keywords, laty, longy);
-            if (photos.size() == 0) {
-                presenter.DisplayNullPhoto();
-            } else {
-                presenter.DisplayCurrPhoto();
-            }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             //ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
             //mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
 
             // Model add photo
             //
-            presenter.Refresh();
+            presenter.RefreshAndDisplay();
         }
     }
 
@@ -236,16 +237,21 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("image/jpeg");
 
-        System.out.println("CURRENT PHOTO PATH : " + mCurrentPhotoPath);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(mCurrentPhotoPath));
+//        System.out.println("CURRENT PHOTO PATH : " + mCurrentPhotoPath);
+//        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(mCurrentPhotoPath));
+        String path = model.GetCurrPhoto().getFilePath();
+        System.out.println("CURRENT PHOTO PATH : " + path);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
         startActivity(Intent.createChooser(shareIntent, "Share image"));
     }
 
     public void PrevButton(View v){
+        presenter.UpdateCurrPhoto(((EditText) findViewById(R.id.editText_caption)).getText().toString());
         presenter.PrevButton();
     }
 
-    public void NextButton(){
+    public void NextButton(View v){
+        presenter.UpdateCurrPhoto(((EditText) findViewById(R.id.editText_caption)).getText().toString());
         presenter.NextButton();
     }
 

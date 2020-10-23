@@ -37,16 +37,17 @@ public class GalleryPresenter {
         //view.DisplayPhoto();
 //    }
 
-    public void Refresh(){
+    public void RefreshAndDisplay(){
         model.LoadPhotos();
         view.DisplayPhoto(model.GetCurrPhoto());
     }
 
     public void Search(Date startTimestamp, Date endTimestamp, String keywords, float laty, float longy){
-
+        model.Search(startTimestamp,endTimestamp,keywords,laty,longy);
+        view.DisplayPhoto(model.GetCurrPhoto());
     }
 
-    public void PostPhotoButton(){
-
+    public void UpdateCurrPhoto(String s){
+        model.UpdateCurrPhoto(s);
     }
 }
