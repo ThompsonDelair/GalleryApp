@@ -35,9 +35,9 @@ public class Model {
         photos.removeIf(new Predicate<Photo>() {
             @Override
             public boolean test(Photo n) {
-                return (((startTimestamp == null && endTimestamp == null) || (n.getDate() >= startTimestamp.getTime() && n.getDate() <= endTimestamp.getTime())
-                ) && (keywords == "" || n.getFilePath().contains(keywords)
-                ) && (latitude == 0 && longitude == 0) || (latitude == latitude && longitude == longitude));
+                return (((startTimestamp != null && endTimestamp != null) && (n.getDate() < startTimestamp.getTime() || n.getDate() > endTimestamp.getTime())
+                ) || (keywords != "" || !n.getFilePath().contains(keywords)
+                ) || (latitude != 0 || longitude != 0) && (latitude != latitude || longitude == longitude));
             }
         });
         index = photos.size()-1;
