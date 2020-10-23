@@ -84,6 +84,9 @@ public class Model {
 
 
     public void UpdateCurrPhoto(String newCaption){
+
+        if(photos.size() == 0)
+            return;
         String path = photos.get(index).getFilePath();
         String[] attr = path.split("_");
         if (attr.length >= 3) {
