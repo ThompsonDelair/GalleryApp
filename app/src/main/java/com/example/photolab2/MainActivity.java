@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.photolab2.CreationalPatterns.Photo;
 import com.example.photolab2.CreationalPatterns.PhotoBuilder;
+import com.example.photolab2.StructuralPatterns.UriAdapter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -115,34 +116,13 @@ public class MainActivity extends AppCompatActivity {
 
                 InputStream in;
                 Uri imgUri = Uri.fromFile(f);
-
-                // Parse geocoding from photo file usin EXIF Interface.
-                ExifInterface exif;
-                float laty = 0, longy = 0;
-                float[] latlon = new float[2];
-
-                try {
-                    in = getContentResolver().openInputStream(imgUri);
-                    exif = new ExifInterface(Objects.requireNonNull(in));
-
-                    // Ensure that LAT & LONG Values can be parsed. Else, set to 0
-                    exif.getLatLong(latlon);
-                    System.out.println("Photo" + f.getPath() + " taken at pos lat : " + latlon[0] + ", lon : " + latlon[1]);
-
-                    laty = latlon[0];
-                    longy = latlon[1];
-
-                } catch(IOException e) {
-                    System.out.println("Absolute file path "+ f.getPath() + " not found.");
-                }
-
-//                System.out.println("Lat : " + laty + ", Long : " + longy);
+                UriAdapter uAdapter = new UriAdapter(imgUri, this, f);
 
                 // If this returns true, a file will be added to the photos list.
-                if ( ( (startTimestamp == null && endTimestamp == null) || ( f.lastModified() >= startTimestamp.getTime() && f.lastModified() <= endTimestamp.getTime() )
-                ) && ( keywords == "" || f.getPath().contains(keywords)
-                ) && ( latitude == 0 && longitude == 0) || (latitude == laty && longitude == longy))  {
-                    photos.add(f.getPath());
+                if ( ( (startTimestamp == null && endTimestamp == null) || ( uAdapter.getDate() >= startTimestamp.getTime() && uAdapter.getDate() <= endTimestamp.getTime() )
+                ) && ( keywords == "" || uAdapter.getFilePath().contains(keywords)
+                ) && ( latitude == 0 && longitude == 0) || (latitude == uAdapter.getLat() && longitude == uAdapter.getLong()))  {
+                    photos.add(uAdapter.getFilePath());
                 }
             }
         }
