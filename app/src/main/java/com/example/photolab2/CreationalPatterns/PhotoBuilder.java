@@ -33,6 +33,10 @@ public class PhotoBuilder {
         return this;
     }
 
+    public PhotoBuilder setDate(Date date) {
+        this.date = date;
+        return this;
+    }
 
     public Photo build() {
         if (validateParameters()) {
