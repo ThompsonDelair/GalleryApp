@@ -16,21 +16,20 @@ public class GalleryPresenter {
 
     public void PrevButton(){
         // get prev photo from model
-        view.DisplayPhoto();
+        //view.DisplayPhoto();
     }
 
     public void NextButton(){
         // get next photo from model
-        view.DisplayPhoto();
+        //view.DisplayPhoto();
     }
 
     public void TakePhotoButton(){
         // ?
-        view.DisplayPhoto();
+        //view.DisplayPhoto();
     }
 
     public void PostPhotoButton(){
 
     }
-
 }

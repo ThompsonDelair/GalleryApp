@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -70,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        model = new Model(this);
+        presenter = new GalleryPresenter(this,model);
+        DisplayPhoto(model.GetCurrPhoto());
+
         photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
         if (photos.size() == 0) {
             displayPhoto(null);
@@ -252,6 +257,9 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
             ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
             mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
             photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
+
+            // Model add photo
+            //
         }
     }
 
@@ -265,8 +273,16 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
         startActivity(Intent.createChooser(shareIntent, "Share image"));
     }
 
+    public void PrevButton(View v){
+        presenter.PrevButton();
+    }
+
+    public void NextButton(){
+
+    }
+
     @Override
-    public void DisplayPhoto() {
+    public void DisplayPhoto(Photo photo) {
 
     }
 }
