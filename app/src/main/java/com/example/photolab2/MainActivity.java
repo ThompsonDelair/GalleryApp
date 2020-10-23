@@ -1,22 +1,14 @@
 package com.example.photolab2;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import retrofit2.Call;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,20 +19,13 @@ import android.widget.TextView;
 
 import com.example.photolab2.CreationalPatterns.Photo;
 import com.example.photolab2.CreationalPatterns.PhotoBuilder;
+import com.example.photolab2.MVP.GalleryPresenter;
+import com.example.photolab2.MVP.IGalleryView;
+import com.example.photolab2.MVP.Model;
 import com.example.photolab2.StructuralPatterns.PhotoInfoAdapter;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterApiClient;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-import com.twitter.sdk.android.core.models.User;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-
-import java.io.InputStreamReader;
 
 import java.io.InputStream;
 
@@ -48,7 +33,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements IGalleryView {
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -56,17 +40,17 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
 
     Model model;
     GalleryPresenter presenter;
+    private PhotoBuilder photoBuilder = new PhotoBuilder();
 
+    //String mCurrentPhotoPath;
 
-    String mCurrentPhotoPath;
-
-    private ArrayList<String> photos = null;
+    //private ArrayList<String> photos = null;
 
     // Creational implementation
-    private PhotoBuilder photoBuilder = new PhotoBuilder();
-    private ArrayList<Photo> photoList = null;
 
-    private int index = 0;
+    //private ArrayList<Photo> photoList = null;
+
+    //private int index = 0;
 
 
     @Override
@@ -75,14 +59,14 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
         setContentView(R.layout.activity_main);
         model = new Model(this);
         presenter = new GalleryPresenter(this,model);
-        DisplayPhoto(model.GetCurrPhoto());
+        presenter.DisplayCurrPhoto();
 
-        photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
-        if (photos.size() == 0) {
-            displayPhoto(null);
-        } else {
-            displayPhoto(photos.get(index));
-        }
+//        //photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
+//        if (photos.size() == 0) {
+//            //displayPhoto(null);
+//        } else {
+//            //displayPhoto(photos.get(index));
+//        }
     }
 
 
@@ -132,9 +116,9 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
                 // If this returns true, a file will be added to the photos list.
                 if ( ( (startTimestamp == null && endTimestamp == null) || ( f.lastModified() >= startTimestamp.getTime() && f.lastModified() <= endTimestamp.getTime() )
                 ) && ( keywords == "" || f.getPath().contains(keywords)
-                ) && ( latitude == 0 && longitude == 0) || (latitude == laty && longitude == longy))  {
+                ) && ( latitude == 0 && longitude == 0) || (latitude == latitude && longitude == longitude))  {
                     photos.add(f.getPath());
-                    photoList.add(photoBuilder.setFilePath(f.getPath()).setDate(f.lastModified()).setLocation(laty, longy).build());
+                    photoList.add(photoBuilder.setFilePath(pAdapter.getFilePath()).setDate(pAdapter.getDate()).setLocation(pAdapter.getLat(), pAdapter.getLong()).build());
                 }
             }
         }
@@ -142,41 +126,41 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
         return photos;
     }
 
-    public void scrollPhotos(View v) {
-        updatePhoto(photos.get(index), ((EditText) findViewById(R.id.editText_caption)).getText().toString());
+//    public void scrollPhotos(View v) {
+//        updatePhoto(photos.get(index), ((EditText) findViewById(R.id.editText_caption)).getText().toString());
+//
+//        switch (v.getId()) {
+//            case R.id.button_prev:
+//                if (index > 0) {
+//                    index--;
+//                }
+//                break;
+//            case R.id.button_next:
+//                if (index < (photos.size() - 1)) {
+//                index++;
+//            }
+//            break;
+//            default:
+//                break;
+//        }
+//        displayPhoto(photos.get(index));
+//    }
 
-        switch (v.getId()) {
-            case R.id.button_prev:
-                if (index > 0) {
-                    index--;
-                }
-                break;
-            case R.id.button_next:
-                if (index < (photos.size() - 1)) {
-                index++;
-            }
-            break;
-            default:
-                break;
-        }
-        displayPhoto(photos.get(index));
-    }
-
-    private void displayPhoto(String path) {
-        ImageView iv = (ImageView) findViewById(R.id.imageView_gallery);
-        TextView tv = (TextView) findViewById(R.id.textView_timestamp);
-        EditText et = (EditText) findViewById(R.id.editText_caption);
-        if (path == null || path =="") {
-            iv.setImageResource(R.mipmap.ic_launcher);
-            et.setText("");
-            tv.setText("");
-        } else {
-            iv.setImageBitmap(BitmapFactory.decodeFile(path));
-            String[] attr = path.split("_");
-            et.setText(attr[1]);
-            tv.setText(attr[2]);
-        }
-    }
+//    private void displayPhoto(String path) {
+//        ImageView iv = (ImageView) findViewById(R.id.imageView_gallery);
+//        TextView tv = (TextView) findViewById(R.id.textView_timestamp);
+//        EditText et = (EditText) findViewById(R.id.editText_caption);
+//        if (path == null || path =="") {
+//            iv.setImageResource(R.mipmap.ic_launcher);
+//            et.setText("");
+//            tv.setText("");
+//        } else {
+//            iv.setImageBitmap(BitmapFactory.decodeFile(path));
+//            String[] attr = path.split("_");
+//            et.setText(attr[1]);
+//            tv.setText(attr[2]);
+//        }
+//    }
 
     private void updatePhoto(String path, String caption) {
         String[] attr = path.split("_");
@@ -232,17 +216,18 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
             index = 0;
             photos = findPhotos(startTimestamp, endTimestamp, keywords, laty, longy);
             if (photos.size() == 0) {
-                displayPhoto(null);
+                presenter.DisplayNullPhoto();
             } else {
-                displayPhoto(photos.get(index));
+                presenter.DisplayCurrPhoto();
             }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
-            mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
-            photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
+            //ImageView mImageView = (ImageView) findViewById(R.id.imageView_gallery);
+            //mImageView.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
+            //photos = findPhotos(new Date(Long.MIN_VALUE), new Date(), "", 0, 0);
 
             // Model add photo
             //
+            presenter.Refresh();
         }
     }
 
@@ -261,11 +246,23 @@ public class MainActivity extends AppCompatActivity implements IGalleryView {
     }
 
     public void NextButton(){
-
+        presenter.NextButton();
     }
 
     @Override
     public void DisplayPhoto(Photo photo) {
-
+        ImageView iv = (ImageView) findViewById(R.id.imageView_gallery);
+        TextView tv = (TextView) findViewById(R.id.textView_timestamp);
+        EditText et = (EditText) findViewById(R.id.editText_caption);
+        if (photo == null || photo.getFilePath() =="") {
+            iv.setImageResource(R.mipmap.ic_launcher);
+            et.setText("");
+            tv.setText("");
+        } else {
+            iv.setImageBitmap(BitmapFactory.decodeFile(photo.getFilePath()));
+            //String[] attr = path.split("_");
+            et.setText(photo.getCaption());
+            tv.setText(Long.toString(photo.getDate()));
+        }
     }
 }

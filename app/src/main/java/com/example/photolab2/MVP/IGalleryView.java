@@ -1,4 +1,4 @@
-package com.example.photolab2;
+package com.example.photolab2.MVP;
 
 import com.example.photolab2.CreationalPatterns.Photo;
 
