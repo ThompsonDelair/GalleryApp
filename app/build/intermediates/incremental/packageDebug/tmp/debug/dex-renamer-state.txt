@@ -1,7 +1,7 @@
-#Thu Sep 24 19:18:22 PDT 2020
-base.0=C\:\\Users\\renzo\\Desktop\\android photo\\NewGalleryApp\\GalleryApp\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+#Thu Oct 22 22:45:07 PDT 2020
+base.0=C\:\\Users\\renzo\\Desktop\\android photo\\GalleryApp\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex
 path.0=classes.dex
 renamed.0=classes.dex
-base.1=C\:\\Users\\renzo\\Desktop\\android photo\\NewGalleryApp\\GalleryApp\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\classes.dex
+base.1=C\:\\Users\\renzo\\Desktop\\android photo\\GalleryApp\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\classes.dex

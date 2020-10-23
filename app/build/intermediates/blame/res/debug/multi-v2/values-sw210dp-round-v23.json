@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\renzo\\Desktop\\android photo\\NewGalleryApp\\GalleryApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw210dp-round-v23\\values-sw210dp-round-v23.xml",
+            "outputFile": "C:\\Users\\renzo\\Desktop\\android photo\\GalleryApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw210dp-round-v23\\values-sw210dp-round-v23.xml",
             "map": [
                 {
                     "source": "C:\\Users\\renzo\\.gradle\\caches\\transforms-2\\files-2.1\\fdd42d596c4f70d37e38036f9f6b5091\\wear-1.0.0\\res\\values-sw210dp-round-v23\\values-sw210dp-round-v23.xml",

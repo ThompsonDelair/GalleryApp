@@ -6,129 +6,128 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="26"
-8-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml
+8-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml
+9-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.WAKE_LOCK" />
-11-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:5:5-68
-11-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:5:22-65
+11-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:5:5-68
+11-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:5:22-65
 12
 13    <uses-feature
-13-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:6:5-8:35
+13-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:6:5-8:35
 14        android:name="android.hardware.camera"
-14-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:7:9-47
+14-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:7:9-47
 15        android:required="true" />
-15-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:8:9-32
+15-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:8:9-32
 16
 17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-17-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:10:5-80
-17-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:10:22-77
+17-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:10:5-80
+17-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:10:22-77
 18    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-18-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:11:5-81
-18-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:11:22-78
+18-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:11:5-81
+18-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:11:22-78
 19
 20    <application
-20-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:13:5-48:19
+20-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:13:5-48:19
 21        android:allowBackup="true"
-21-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:14:9-35
+21-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:14:9-35
 22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 22-->[androidx.core:core:1.3.1] C:\Users\renzo\.gradle\caches\transforms-2\files-2.1\ae3468b444d41a56f261ecbb8448fe17\core-1.3.1\AndroidManifest.xml:24:18-86
 23        android:debuggable="true"
 24        android:extractNativeLibs="false"
 25        android:icon="@mipmap/ic_launcher"
-25-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:15:9-43
+25-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:15:9-43
 26        android:label="@string/app_name"
-26-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:16:9-41
+26-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:16:9-41
 27        android:roundIcon="@mipmap/ic_launcher_round"
-27-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:17:9-54
+27-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:17:9-54
 28        android:supportsRtl="true"
-28-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:18:9-35
-29        android:testOnly="true"
-30        android:theme="@style/AppTheme" >
-30-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:19:9-40
-31
-32        <!--
-33               Set to true if your app is Standalone, that is, it does not require the handheld
-34               app to run.
-35        -->
-36
-37        <provider
-37-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:26:9-34:20
-38            android:name="androidx.core.content.FileProvider"
-38-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:27:13-62
-39            android:authorities="com.example.photolab2.fileprovider"
-39-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:28:13-69
-40            android:exported="false"
-40-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:29:13-37
-41            android:grantUriPermissions="true" >
-41-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:30:13-47
-42            <meta-data
-42-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:31:13-33:54
-43                android:name="android.support.FILE_PROVIDER_PATHS"
-43-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:32:17-67
-44                android:resource="@xml/file_paths" />
-44-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:33:17-51
-45        </provider>
-46
-47        <activity android:name="com.example.photolab2.MainActivity" >
-47-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:36:9-42:20
-47-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:36:19-47
-48            <intent-filter>
-48-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:37:13-41:29
-49                <action android:name="android.intent.action.MAIN" />
-49-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:38:17-69
-49-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:38:25-66
-50
-51                <category android:name="android.intent.category.LAUNCHER" />
-51-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:40:17-77
-51-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:40:27-74
-52            </intent-filter>
-53        </activity>
-54        <activity
-54-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:44:9-47:20
-55            android:name="com.example.photolab2.SearchActivity"
-55-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:45:13-43
-56            android:label="@string/title_activity_search" >
-56-->C:\Users\renzo\Desktop\android photo\NewGalleryApp\GalleryApp\app\src\main\AndroidManifest.xml:46:13-58
-57        </activity>
-58    </application>
-59
-60</manifest><!--
-61<?xml version="1.0" encoding="utf-8"?>
-62<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-63    package="com.example.photolab2">
-64
-65    <uses-feature android:name="android.hardware.camera"
-66        android:required="true" />
-67
-68    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-69    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-70
-71    <application
-72        android:allowBackup="true"
-73        android:icon="@mipmap/ic_launcher"
-74        android:label="@string/app_name"
-75        android:roundIcon="@mipmap/ic_launcher_round"
-76        android:supportsRtl="true"
-77        android:theme="@style/AppTheme">
-78        <provider
-79            android:name="androidx.core.content.FileProvider"
-80            android:authorities="com.example.photolab2.fileprovider"
-81            android:exported="false"
-82            android:grantUriPermissions="true">
-83            <meta-data
-84                android:name="android.support.FILE_PROVIDER_PATHS"
-85                android:resource="@xml/file_paths"></meta-data>
-86        </provider>
-87        <activity android:name=".MainActivity">
-88            <intent-filter>
-89                <action android:name="android.intent.action.MAIN" />
-90
-91                <category android:name="android.intent.category.LAUNCHER" />
-92            </intent-filter>
-93        </activity>
-94    </application>
-95
-96</manifest>
-97-->
+28-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:18:9-35
+29        android:theme="@style/AppTheme" >
+29-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:19:9-40
+30
+31        <!--
+32               Set to true if your app is Standalone, that is, it does not require the handheld
+33               app to run.
+34        -->
+35
+36        <provider
+36-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:26:9-34:20
+37            android:name="androidx.core.content.FileProvider"
+37-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:27:13-62
+38            android:authorities="com.example.photolab2.fileprovider"
+38-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:28:13-69
+39            android:exported="false"
+39-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:29:13-37
+40            android:grantUriPermissions="true" >
+40-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:30:13-47
+41            <meta-data
+41-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:31:13-33:54
+42                android:name="android.support.FILE_PROVIDER_PATHS"
+42-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:32:17-67
+43                android:resource="@xml/file_paths" />
+43-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:33:17-51
+44        </provider>
+45
+46        <activity android:name="com.example.photolab2.MainActivity" >
+46-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:36:9-42:20
+46-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:36:19-47
+47            <intent-filter>
+47-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:37:13-41:29
+48                <action android:name="android.intent.action.MAIN" />
+48-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:38:17-69
+48-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:38:25-66
+49
+50                <category android:name="android.intent.category.LAUNCHER" />
+50-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:40:17-77
+50-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:40:27-74
+51            </intent-filter>
+52        </activity>
+53        <activity
+53-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:44:9-47:20
+54            android:name="com.example.photolab2.SearchActivity"
+54-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:45:13-43
+55            android:label="@string/title_activity_search" >
+55-->C:\Users\renzo\Desktop\android photo\GalleryApp\app\src\main\AndroidManifest.xml:46:13-58
+56        </activity>
+57    </application>
+58
+59</manifest><!--
+60<?xml version="1.0" encoding="utf-8"?>
+61<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+62    package="com.example.photolab2">
+63
+64    <uses-feature android:name="android.hardware.camera"
+65        android:required="true" />
+66
+67    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+68    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+69
+70    <application
+71        android:allowBackup="true"
+72        android:icon="@mipmap/ic_launcher"
+73        android:label="@string/app_name"
+74        android:roundIcon="@mipmap/ic_launcher_round"
+75        android:supportsRtl="true"
+76        android:theme="@style/AppTheme">
+77        <provider
+78            android:name="androidx.core.content.FileProvider"
+79            android:authorities="com.example.photolab2.fileprovider"
+80            android:exported="false"
+81            android:grantUriPermissions="true">
+82            <meta-data
+83                android:name="android.support.FILE_PROVIDER_PATHS"
+84                android:resource="@xml/file_paths"></meta-data>
+85        </provider>
+86        <activity android:name=".MainActivity">
+87            <intent-filter>
+88                <action android:name="android.intent.action.MAIN" />
+89
+90                <category android:name="android.intent.category.LAUNCHER" />
+91            </intent-filter>
+92        </activity>
+93    </application>
+94
+95</manifest>
+96-->

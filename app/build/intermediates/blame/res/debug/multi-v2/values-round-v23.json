@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\renzo\\Desktop\\android photo\\NewGalleryApp\\GalleryApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-round-v23\\values-round-v23.xml",
+            "outputFile": "C:\\Users\\renzo\\Desktop\\android photo\\GalleryApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-round-v23\\values-round-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\renzo\\Desktop\\android photo\\NewGalleryApp\\GalleryApp\\app\\src\\main\\res\\values-round\\strings.xml",
+                    "source": "C:\\Users\\renzo\\Desktop\\android photo\\GalleryApp\\app\\src\\main\\res\\values-round\\strings.xml",
                     "from": {
                         "startLines": "1",
                         "startColumns": "4",
