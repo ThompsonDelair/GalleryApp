@@ -37,7 +37,7 @@ public class Model {
         for (Photo p: photos) {
             if( ((startTimestamp == null && endTimestamp == null) || ( p.getDate() >= startTimestamp.getTime() && p.getDate() <= endTimestamp.getTime() )
                 ) && ( keywords == "" || p.getFilePath().contains(keywords)
-                ) && ( latitude == 0 && longitude == 0) || (latitude == latitude && longitude == longitude)){
+                ) && ( latitude == 0 && longitude == 0) || (p.getLocation()[0] == latitude && p.getLocation()[1] == longitude)){
                 searchResults.add(p);
             }
         }
