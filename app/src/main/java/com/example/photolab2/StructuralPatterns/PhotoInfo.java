@@ -9,5 +9,4 @@ public interface PhotoInfo {
     public long getDate();
     public float getLong();
     public float getLat();
-
 }
