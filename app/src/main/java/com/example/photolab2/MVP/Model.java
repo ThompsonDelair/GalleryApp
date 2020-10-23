@@ -40,7 +40,7 @@ public class Model {
                 ) && (latitude == 0 && longitude == 0) || (latitude == latitude && longitude == longitude));
             }
         });
-        index = photos.size();
+        index = photos.size()-1;
     }
 
     public Photo GetCurrPhoto(){
@@ -109,6 +109,6 @@ public class Model {
                 photos.add(photoBuilder.setFilePath(pAdapter.getFilePath()).setDate(pAdapter.getDate()).setLocation(pAdapter.getLat(), pAdapter.getLong()).build());
             }
         }
-        index = photos.size();
+        index = photos.size()-1;
     }
 }
