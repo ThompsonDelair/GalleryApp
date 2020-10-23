@@ -12,6 +12,7 @@ import com.example.photolab2.StructuralPatterns.PhotoInfoAdapter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,14 +33,23 @@ public class Model {
 
     public void Search(final Date startTimestamp, final Date endTimestamp, final String keywords, final float latitude, final float longitude){
         LoadPhotos();
-        photos.removeIf(new Predicate<Photo>() {
-            @Override
-            public boolean test(Photo n) {
-                return (((startTimestamp != null && endTimestamp != null) && (n.getDate() < startTimestamp.getTime() || n.getDate() > endTimestamp.getTime())
-                ) || (keywords != "" || !n.getFilePath().contains(keywords)
-                ) || (latitude != 0 || longitude != 0) && (latitude != latitude || longitude == longitude));
+        ArrayList<Photo> searchResults = new ArrayList<>(photos);
+        for (Photo p: photos) {
+            if( ((startTimestamp == null && endTimestamp == null) || ( p.getDate() >= startTimestamp.getTime() && p.getDate() <= endTimestamp.getTime() )
+                ) && ( keywords == "" || p.getFilePath().contains(keywords)
+                ) && ( latitude == 0 && longitude == 0) || (latitude == latitude && longitude == longitude)){
+                searchResults.add(p);
             }
-        });
+        }
+//        photos.removeIf(new Predicate<Photo>() {
+//            @Override
+//            public boolean test(Photo n) {
+//                return (((startTimestamp != null && endTimestamp != null) && (n.getDate() < startTimestamp.getTime() || n.getDate() > endTimestamp.getTime())
+//                ) || (keywords != "" && !n.getFilePath().contains(keywords)
+//                ) || (latitude != 0 || longitude != 0) && (latitude != latitude || longitude == longitude));
+//            }
+//        });
+        photos = searchResults;
         index = photos.size()-1;
     }
 
